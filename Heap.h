@@ -4,14 +4,14 @@ class Heap {
  public:
   Heap();
   ~Heap();
-  void insert(int value);
-  void remove(int value);
+  void insert(int inserted);
+  void remove(int removed);
   void print();
-  bool checkNode();
-  void bubbleUp();
-  void bubbleDown();
+  void printSequence();
+  void bubbleUp(int index, int* array);
+  void bubbleDown(int index, int* array);
  private:
-  int index;
-  int value;
-  
+  int count;
+  int* value;
+  int size;
 };
