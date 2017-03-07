@@ -1,3 +1,4 @@
+//Sanil Hattangadi, this is the cpp of the Heap methods. It contains all the algorithms
 #include <iostream>
 #include "Heap.h"
 
@@ -15,7 +16,7 @@ Heap::Heap(){//constructor of the heap and sets the variables
 }
 
 Heap::~Heap(){//deconstructor and deletes all the integer values
-  delete[] value;//should there be a []?
+  delete[] value;
 }
 
 void Heap::insert(int inserted){//puts the inserted integer into the count spot, the last spot
@@ -32,14 +33,14 @@ int Heap::remove(){//removes a value
   return toReturn;
 }
 
-void Heap::print(int i, int indent){
+void Heap::print(int i, int indent){//prints out the tree
   if (i < count){
-    print(getLeft(i), indent+1);
-    for (int j = 0; j <=indent; j++){
+    print(getLeft(i), indent+3);//recursion and prints the left and indents it 3
+    for (int j = 0; j <=indent; j++){ //go through it
       cout << " ";
     }
     cout << value[i] << endl;
-    print(getRight(i), indent+1);
+    print(getRight(i), indent+3);//get the right tree 
   }
 }
 
@@ -55,13 +56,13 @@ void Heap::bubbleUp(int i){//moves value up
 }
 void Heap::bubbleDown(int i){//moves value down until tree is correct
   int swapIndex = -1;
-  if (getLeft(i) <= count-1 && getRight(i) <= count-1){
-    swapIndex = (value[getRight(i)] > value[getLeft(i)]) ? getRight(i) : getLeft(i);
+  if (getLeft(i) <= count-1 && getRight(i) <= count-1){//if the left index and right index are less than count -1
+    swapIndex = (value[getRight(i)] > value[getLeft(i)]) ? getRight(i) : getLeft(i);//swap them
   }
-  else if(getLeft(i) <= count-1){
+  else if(getLeft(i) <= count-1){//if get left is greater 
     swapIndex = getLeft(i);
   }
-  if(value[swapIndex] > value[i] && i != -1){
+  if(value[swapIndex] > value[i] && i != -1){//switches the 2
     int temp = value[i];
     value[i] = value[swapIndex];
     value[swapIndex] = temp;
