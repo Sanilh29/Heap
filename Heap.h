@@ -5,11 +5,12 @@ class Heap {
   Heap();
   ~Heap();
   void insert(int inserted);
-  void remove(int removed);
-  void print();
+  int remove();
+  void print(int i = 0, int indent=0);
   void printSequence();
-  void bubbleUp(int index, int* array);
-  void bubbleDown(int index, int* array);
+  void bubbleUp(int i);
+  void bubbleDown(int i);
+  int getCount();
  private:
   int count;
   int* value;

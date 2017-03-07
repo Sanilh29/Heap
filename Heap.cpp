@@ -1,61 +1,83 @@
 #include <iostream>
 #include "Heap.h"
 
+using namespace std;
+
 int getParent(int child);
 int getLeft(int parent);
 int getRight(int parent);
+void bubbleUp(int index, int* array);
 
-Heap::Heap(){
+Heap::Heap(){//constructor of the heap and sets the variables
   count = 0;
-  //missing stuff
+  size = 128;
+  value = new int[size];
 }
 
-Heap::~Heap(){
-  delete[] value;
+Heap::~Heap(){//deconstructor and deletes all the integer values
+  delete[] value;//should there be a []?
 }
 
-void Heap::insert(int inserted){
-  //put the node data into the last
-  
+void Heap::insert(int inserted){//puts the inserted integer into the count spot, the last spot
+  value[count] = inserted;
+  bubbleUp(count);//bubbles up the last spot until it is a correct max heap tree
+  count++;//adds one to the count
 }
 
-void Heap::remove(int removed){//not done
-
+int Heap::remove(){//removes a value
+  int toReturn = value[0];//the top value, max
+  value[0] = value[count-1];//puts value into the last spot
+  bubbleDown(0);//moves new top value t correct spot
+  count--;//takea away one from count
+  return toReturn;
 }
 
-void Heap::print(){//not done
-
-}
-
-void Heap::bubbleUp(int index, int* array){
-  while (index !=0){
-    if(array[index] > array[getParent(index)]){
-      int temp = array[index];
-      array[index] = array[getParent(index)];
-      array[getParent(index)] = temp;
-      index = getParent(index);
+void Heap::print(int i, int indent){
+  if (i < count){
+    print(getLeft(i), indent+1);
+    for (int j = 0; j <=indent; j++){
+      cout << " ";
     }
-    else{
-      return;
-    }
+    cout << value[i] << endl;
+    print(getRight(i), indent+1);
   }
 }
 
-void Heap::bubbleDown(int index, int* array){//not done
-  int left;
-  int right;
-  // if(array[getLeft(index)] > array[get
+void Heap::bubbleUp(int i){//moves value up
+  if(i != 0){
+    if(value[i] > value[getParent(i)]){//if child is bigger than parent
+      int temp = value[i]; //set the last one to temp
+      value[i] = value[getParent(i)];//switch the two
+      value[getParent(i)] = temp;
+      bubbleUp(getParent(i));//recursion
+    }
+  }
+}
+void Heap::bubbleDown(int i){//moves value down until tree is correct
+  int swapIndex = -1;
+  if (getLeft(i) <= count-1 && getRight(i) <= count-1){
+    swapIndex = (value[getRight(i)] > value[getLeft(i)]) ? getRight(i) : getLeft(i);
+  }
+  else if(getLeft(i) <= count-1){
+    swapIndex = getLeft(i);
+  }
+  if(value[swapIndex] > value[i] && i != -1){
+    int temp = value[i];
+    value[i] = value[swapIndex];
+    value[swapIndex] = temp;
+    bubbleDown(swapIndex);
+  }
 }
 
-int getLeft(int parent){
+int getLeft(int parent){//gets left child by using equation
   return (parent*2+1);
  }
 
-int getRight(int parent){
+int getRight(int parent){//gets right child by using equation
   return (parent*2+2);
 }
 
-int getParent(int child){
+int getParent(int child){//gets parent by using equation
   if (child > 0){
     if (child %2 ==1){
       return ((child-1)/2);
@@ -67,5 +89,9 @@ int getParent(int child){
   else{
     return child;
   }
+}
+
+int Heap::getCount(){//returns the spot of the last one
+  return count;
 }
 
